@@ -277,22 +277,32 @@ def plotly_dark_layout(fig, title="", height=340):
 
 
 with st.sidebar:
-    
-    if logo_img:
+    col1, col2 = st.columns([1, 2])
+
+    with col1:
+        if logo_img:
+            st.image(f"data:image/png;base64,{logo_img}", use_container_width=True)
+
+    with col2:
         st.markdown(
-            f'<div style="margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid #1e2d3d;">'
-            f'<img src="data:image/png;base64,{logo_img}" '
-            f'style="max-width:140px;height:auto;filter:drop-shadow(0 0 8px rgba(0,229,160,0.35));" />'
-            f'</div>',
+            """
+            <div style="
+                font-family:'Space Mono', monospace;
+                font-size:20px;
+                color:#00e5a0;
+                margin-top:10px;
+                text-shadow:0 0 12px rgba(0,229,160,0.4);
+            ">
+                POWERLY
+            </div>
+            """,
             unsafe_allow_html=True,
         )
-    else:
-        st.markdown(
-            '<div style="font-family:\'Space Mono\',monospace;font-size:18px;'
-            'color:#00e5a0;margin-bottom:20px;text-shadow:0 0 12px rgba(0,229,160,0.4);">'
-            "POWERLY</div>",
-            unsafe_allow_html=True,
-        )
+
+    st.markdown(
+        "<hr style='border:1px solid #1e2d3d;'>",
+        unsafe_allow_html=True
+    )
 
     model_type = st.selectbox(
         "MODEL",
