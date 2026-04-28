@@ -23,12 +23,10 @@ def load_image(path: str):
             return base64.b64encode(f.read()).decode()
     return None
 
-hero_img = load_image("assets/powerly.png")   # hero illustration
-logo_img = load_image("assets/logo.png")       # brand logo (navbar + sidebar)
+hero_img = load_image("assets/powerly.png")   
+logo_img = load_image("assets/logo.png")       
 
-# ─────────────────────────────────────────────
-# PAGE CONFIG
-# ─────────────────────────────────────────────
+
 st.set_page_config(
     page_title="Powerly · Smart Microgrid",
     page_icon="⚡",
@@ -36,9 +34,7 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# ─────────────────────────────────────────────
-# GLOBAL CSS  — dark industrial theme
-# ─────────────────────────────────────────────
+
 st.markdown("""
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet">
 
@@ -252,9 +248,7 @@ div[data-baseweb="select"] svg { color: var(--muted) !important; }
 """, unsafe_allow_html=True)
 
 
-# ─────────────────────────────────────────────
-# HELPERS
-# ─────────────────────────────────────────────
+
 def section(icon: str, label: str):
     st.markdown(
         f'<div class="section-header"><div class="dot"></div><span>{icon} {label}</span></div>',
@@ -282,11 +276,8 @@ def plotly_dark_layout(fig, title="", height=340):
     return fig
 
 
-# ─────────────────────────────────────────────
-# SIDEBAR
-# ─────────────────────────────────────────────
 with st.sidebar:
-    # Brand logo — use image if available, fall back to styled text
+    
     if logo_img:
         st.markdown(
             f'<div style="margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid #1e2d3d;">'
@@ -327,9 +318,6 @@ with st.sidebar:
     )
 
 
-# ─────────────────────────────────────────────
-# LOAD MODEL (optional)
-# ─────────────────────────────────────────────
 model = None
 if MODEL_AVAILABLE and os.path.exists("models/ppo_microgrid/ppo_final.zip"):
     try:
@@ -337,10 +325,6 @@ if MODEL_AVAILABLE and os.path.exists("models/ppo_microgrid/ppo_final.zip"):
     except Exception:
         pass
 
-
-# ─────────────────────────────────────────────
-# SIMULATE ENERGY DATA
-# ─────────────────────────────────────────────
 hours = 24
 t_arr = np.arange(hours)
 solar = np.maximum(0, 55 * np.sin(np.pi * t_arr / 24) + np.random.randn(hours) * 2)
@@ -381,9 +365,6 @@ avg_solar = float(np.mean(solar))
 coverage = float(np.clip(np.mean((solar + wind) / demand) * 100, 0, 100))
 
 
-# ─────────────────────────────────────────────
-# NAVBAR
-# ─────────────────────────────────────────────
 _logo_html = (
     f'<img src="data:image/png;base64,{logo_img}" '
     f'style="height:36px;width:auto;vertical-align:middle;'
@@ -410,9 +391,6 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# ─────────────────────────────────────────────
-# HERO
-# ─────────────────────────────────────────────
 status_color = "#00e5a0" if blackouts == 0 else ("#f5a623" if blackouts < 3 else "#ff4d4d")
 status_label = "STABLE" if blackouts == 0 else ("WARNING" if blackouts < 3 else "CRITICAL")
 
@@ -428,7 +406,7 @@ st.markdown(
     f"""
     <div class="hero" style="display:flex;justify-content:space-between;align-items:center;gap:24px;">
         <div style="flex:1;min-width:0;">
-            <div class="hero-title">AI-Powered Village Microgrid</div>
+            <div class="hero-title">RL based Microgrid Energy Balancer</div>
             <div class="hero-sub">Comparing <b>{model_type}</b> vs PPO in real-world energy balancing · Scenario: <b>{scenario}</b></div>
             <span class="hero-badge">{model_type}</span>
             <span class="hero-badge">{mode}</span>
@@ -445,9 +423,6 @@ st.markdown(
 )
 
 
-# ─────────────────────────────────────────────
-# KPI METRICS
-# ─────────────────────────────────────────────
 c1, c2, c3, c4, c5 = st.columns(5)
 c1.metric("☀️ Solar Output",  f"{avg_solar:.1f} kW",   f"+{avg_solar*0.05:.1f} kW vs yesterday")
 c2.metric("💨 Wind Output",   f"{np.mean(wind):.1f} kW", None)
@@ -456,9 +431,6 @@ c4.metric("🔋 Battery (Now)", f"{battery[-1]:.0f}%",   f"{battery[-1]-battery[
 c5.metric("🚨 Low-SoC Hours", f"{blackouts}",          None)
 
 
-# ─────────────────────────────────────────────
-# ENERGY FLOW CHART
-# ─────────────────────────────────────────────
 section("📈", "ENERGY FLOW — 24H")
 
 fig = go.Figure()
@@ -507,9 +479,7 @@ plotly_dark_layout(fig, height=360)
 st.plotly_chart(fig, use_container_width=True)
 
 
-# ─────────────────────────────────────────────
-# SOLAR COVERAGE PROGRESS
-# ─────────────────────────────────────────────
+
 section("🌞", "RENEWABLE COVERAGE")
 st.markdown(
     f'<div style="font-family:\'Space Mono\',monospace;font-size:24px;color:#00e5a0;'
@@ -524,9 +494,7 @@ st.markdown(
 )
 
 
-# ─────────────────────────────────────────────
-# VILLAGE MAP  — no token required (open-street-map)
-# ─────────────────────────────────────────────
+
 section("🗺", "VILLAGE ENERGY GRID")
 
 # Generate reproducible house locations (near Nagpur, India)
@@ -590,7 +558,7 @@ fig_map.add_trace(go.Scattermapbox(
 
 fig_map.update_layout(
     mapbox=dict(
-        style="open-street-map",   # ✅ No token required
+        style="open-street-map",   
         zoom=11.5,
         center=dict(lat=20.55, lon=78.93),
     ),
@@ -625,9 +593,6 @@ with col_r:
         st.error(f"⚠️ **{row['label']}** — Deficit: {row['energy']:.2f} kW → Needs supply")
 
 
-# ─────────────────────────────────────────────
-# LIVE ANIMATED SVG GRID
-# ─────────────────────────────────────────────
 section("🎥", "LIVE ENERGY FLOW ANIMATION")
 
 st.markdown("""
@@ -707,9 +672,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-# ─────────────────────────────────────────────
-# MODEL COMPARISON
-# ─────────────────────────────────────────────
+
 section("📊", "MODEL COMPARISON")
 
 # Use real CSV if present, otherwise show realistic synthetic data
@@ -816,9 +779,6 @@ fig_net.update_layout(
 st.plotly_chart(fig_net, use_container_width=True)
 
 
-# ─────────────────────────────────────────────
-# SANKEY — ENERGY FLOW DIAGRAM
-# ─────────────────────────────────────────────
 section("🔀", "ENERGY FLOW — SANKEY DIAGRAM")
 
 total_solar  = float(np.sum(solar))
@@ -881,7 +841,7 @@ st.plotly_chart(fig_sankey, use_container_width=True)
 
 # ─────────────────────────────────────────────
 # HOURLY HEATMAP — energy intensity
-# ─────────────────────────────────────────────
+
 section("🌡", "HOURLY ENERGY HEATMAP")
 
 heat_data = np.array([solar, wind, demand, battery])
@@ -924,7 +884,7 @@ st.plotly_chart(fig_heat, use_container_width=True)
 
 # ─────────────────────────────────────────────
 # LIVE SIMULATION  —  button-gated, no startup blocking
-# ─────────────────────────────────────────────
+
 section("⏱", "LIVE SIMULATION PLAYBACK")
 
 if st.button("▶  Run Live Simulation"):
@@ -1067,9 +1027,6 @@ if st.button("📥  Generate PDF Report"):
         st.error(f"PDF generation error: {e}\n\nEnsure matplotlib is installed.")
 
 
-# ─────────────────────────────────────────────
-# FOOTER
-# ─────────────────────────────────────────────
 _footer_logo = (
     f'<img src="data:image/png;base64,{logo_img}" style="height:18px;vertical-align:middle;opacity:0.5;margin-right:8px;" />'
     if logo_img else "⚡"
