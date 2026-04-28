@@ -1,0 +1,23 @@
+# Microgrid Balancer: Requirements
+# Core RL & Environment
+gymnasium==0.29.1
+stable-baselines3==2.2.1
+numpy==1.24.3
+scipy==1.11.2
+
+# Data Processing
+pandas==2.0.3
+scikit-learn==1.3.0
+
+# Visualization & Tracking
+matplotlib==3.7.2
+streamlit==1.26.0
+plotly==5.16.1
+tensorboard==2.14.0
+
+# Kaggle Dataset Download (Optional)
+kaggle==1.5.13
+
+# Utilities
+python-dotenv==1.0.0
+tqdm==4.66.1

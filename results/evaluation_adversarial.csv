@@ -1,0 +1,4 @@
+Agent,Avg Reward,Std Reward,Avg CSR,Blackouts (kWh),Diesel (kWh),Renewable (kWh)
+PPO RL Agent,-1911.32,292.94,0.997,0.7,433.4,164.2
+Rule-Based,-4915.01,1556.53,0.790,39.3,261.0,162.5
+AT-DRAC,-9691.87,1951.18,0.449,96.9,63.3,155.1
