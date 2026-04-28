@@ -3,10 +3,6 @@ Configuration file for microgrid balancer RL agent.
 All hyperparameters and settings in one place.
 """
 
-# ============================================================
-# config.py — All hyperparameters and settings in ONE place
-# GitHub Copilot: modify values here to change behavior
-# ============================================================
 
 # --- Microgrid Physical Parameters ---
 BATTERY_CAPACITY_KWH = 100.0        # Total battery storage capacity (kWh)
@@ -76,4 +72,4 @@ RESULTS_DIR = "results"
 KAGGLE_DATASET = "anikannal/solar-power-generation-data"
 GENERATION_FILE = "Plant_1_Generation_Data.csv"   # Solar generation
 WEATHER_FILE = "Plant_1_Weather_Sensor_Data.csv"  # Temperature, irradiation
-# Environment parameters
+

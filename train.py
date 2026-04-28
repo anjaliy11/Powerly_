@@ -38,9 +38,6 @@ from env.microgrid_env import MicrogridEnv
 from config import PROCESSED_DATA_PATH, ADVERSARY_BUDGET, TIMESTEP_MINUTES
 
 
-# ─────────────────────────────────────────────────────────────────
-# Custom Callback for Episode Logging
-# ─────────────────────────────────────────────────────────────────
 
 class MicrogridCallback(BaseCallback):
     """
@@ -55,7 +52,7 @@ class MicrogridCallback(BaseCallback):
 
     def _on_step(self) -> bool:
         """Called after each step. Check if episode ended."""
-        # Get the wrapped environment (support VecEnv or raw env)
+        # Get the wrapped environment 
         env = self.model.get_env().envs[0] if hasattr(self.model.get_env(), 'envs') else self.model.get_env()
 
         # Check episode end and log once per episode
@@ -91,9 +88,7 @@ class MicrogridCallback(BaseCallback):
         self.num_episodes = 0
 
 
-# ─────────────────────────────────────────────────────────────────
-# Training Function
-# ─────────────────────────────────────────────────────────────────
+
 
 def train_ppo_agent(
     adversarial: bool = ADVERSARY_ENABLED,
@@ -132,7 +127,7 @@ def train_ppo_agent(
     env_fns = [make_env(i) for i in range(n_envs)]
     vec_env = DummyVecEnv(env_fns)
 
-    # Normalize observations (not rewards for stability) and keep stats
+    # Normalize observations (not rewards for stability) 
     vec_env = VecNormalize(vec_env, norm_obs=True, norm_reward=False)
 
     env = vec_env

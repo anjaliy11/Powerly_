@@ -7,7 +7,7 @@ Input:  data/raw/Plant_1_Generation_Data.csv
         data/raw/Plant_1_Weather_Sensor_Data.csv
 Output: data/processed_solar_data.csv
 
-GitHub Copilot: This creates the training dataset for the microgrid environment.
+
 Run with: python data/preprocess.py
 """
 
