@@ -306,24 +306,10 @@ Contributions welcome! Please:
 
 ---
 
-## Citation
-
-If you use this code in research, please cite:
-
-```bibtex
-@article{microgrid_balancer_2024,
-  title={Autonomous Microgrid Balancing with Adversarial Training},
-  author={Your Name},
-  year={2024}
-}
-```
-
----
 
 ## Contact & Support
 
 - **Issues**: GitHub issues
 - **Questions**: Open a discussion
-- **Email**: your-email@example.com
 
 Happy training! 🚀
